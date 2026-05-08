@@ -8,7 +8,7 @@ A floating AI chat widget for WordPress sites. Visitors click a button on any pa
 
 ## Why I Built This
 
-I built this plugin as part of my application to **webeluno GmbH** for the Web-Developer position. The job description mentioned custom CMS extensions, database design, REST endpoints and frontend implementation. This plugin demonstrates all of these in a real, deployable product that an agency could resell to clients.
+I built this plugin as a portfolio project for modern WordPress agency work. It demonstrates custom CMS extension development, database design, REST endpoints and frontend implementation in a real, deployable product that an agency could resell to clients.
 
 Example use case: a law firm or clinic visitor reads a service page, does not understand technical terminology, opens the AI assistant and asks for a simple explanation. The assistant answers using the current page as context and can also search related pages on the site.
 
