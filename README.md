@@ -139,6 +139,8 @@ make zip
 
 `.gitattributes` excludes tests, Docker files and development metadata from release archives.
 
+For a live WordPress site, upload the generated zip through `Plugins -> Add New -> Upload Plugin`, then configure the OpenRouter key in `AI Assistant -> Settings`.
+
 ## Roadmap
 
 - Vector embeddings for stronger related-page search
