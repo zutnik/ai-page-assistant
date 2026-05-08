@@ -4,6 +4,8 @@
 
 A floating AI chat widget for WordPress sites. Visitors click a button on any page, ask questions in natural language, and receive answers grounded in the actual content of the page they are reading. Powered by OpenRouter for provider-agnostic AI access.
 
+![AI Page Assistant demo](docs/demo.gif)
+
 ## Why I Built This
 
 I built this plugin as part of my application to **webeluno GmbH** for the Web-Developer position. The job description mentioned custom CMS extensions, database design, REST endpoints and frontend implementation. This plugin demonstrates all of these in a real, deployable product that an agency could resell to clients.
