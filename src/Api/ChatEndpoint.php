@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace AiPageAssistant\Api;
 
 use AiPageAssistant\AI\ContextBuilder;
+use AiPageAssistant\AI\FreeModelResolver;
 use AiPageAssistant\AI\OpenRouterClient;
 use AiPageAssistant\AI\PromptBuilder;
 use AiPageAssistant\Repository\LogRepository;
@@ -52,7 +53,8 @@ final class ChatEndpoint
         try {
             $context = (new ContextBuilder(new PageContentRepository(), $this->settings))->buildForQuery($pageId, $message);
             $messages = (new PromptBuilder($this->settings->systemPrompt()))->build($context, $message, $language);
-            $client = new OpenRouterClient($this->settings->apiKey(), $this->settings->model());
+            $model = (new FreeModelResolver())->resolve($this->settings->model());
+            $client = new OpenRouterClient($this->settings->apiKey(), $model);
 
             $this->startStream();
 
@@ -62,16 +64,16 @@ final class ChatEndpoint
             }
 
             $this->sendEvent(['type' => 'done']);
-            $this->storeLog($visitorId, $pageId, $language, $message, $answer, $ipHash, $started);
+            $this->storeLog($visitorId, $pageId, $language, $message, $answer, $ipHash, $started, '', $model);
             exit;
         } catch (Throwable $throwable) {
             if (headers_sent()) {
                 $this->sendEvent(['type' => 'error', 'message' => $throwable->getMessage()]);
-                $this->storeLog($visitorId, $pageId, $language, $message, $answer, $ipHash, $started, $throwable->getMessage());
+                $this->storeLog($visitorId, $pageId, $language, $message, $answer, $ipHash, $started, $throwable->getMessage(), $model ?? $this->settings->model());
                 exit;
             }
 
-            $this->storeLog($visitorId, $pageId, $language, $message, $answer, $ipHash, $started, $throwable->getMessage());
+            $this->storeLog($visitorId, $pageId, $language, $message, $answer, $ipHash, $started, $throwable->getMessage(), $model ?? $this->settings->model());
 
             return new WP_REST_Response(['error' => ['message' => $throwable->getMessage()]], 500);
         }
@@ -105,7 +107,8 @@ final class ChatEndpoint
         string $answer,
         string $ipHash,
         float $started,
-        string $error = ''
+        string $error = '',
+        ?string $model = null
     ): void {
         if (! $this->settings->storeLogs()) {
             return;
@@ -116,7 +119,7 @@ final class ChatEndpoint
             'page_id' => $pageId,
             'page_url' => get_permalink($pageId) ?: '',
             'visitor_language' => $language,
-            'model' => $this->settings->model(),
+            'model' => $model ?? $this->settings->model(),
             'question' => $question,
             'answer' => $answer,
             'ip_hash' => $ipHash,

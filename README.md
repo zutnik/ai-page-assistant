@@ -17,6 +17,7 @@ Example use case: a law firm or clinic visitor reads a service page, does not un
 - Page-aware context from the current WordPress page
 - Related-page lookup using keyword search via `WP_Query`
 - Provider-agnostic AI access through OpenRouter
+- Auto-selects the current best free OpenRouter model from `https://shir-man.com/api/free-llm/top-models`
 - Streaming responses via Server-Sent Events
 - IP-based rate limiting with hourly and daily caps
 - Admin settings page with model dropdown and GDPR controls
@@ -89,7 +90,7 @@ In local Docker mode the plugin can return a fake streaming response when no API
 Settings page: `Settings -> AI Assistant`
 
 - OpenRouter API key
-- Model dropdown: Claude 3.5 Haiku, Claude 3.5 Sonnet, GPT-4o mini, Gemini Flash, Llama 3.3
+- Model dropdown: auto best free model, Claude 3.5 Haiku, Claude 3.5 Sonnet, GPT-4o mini, Gemini Flash, Llama 3.3
 - Custom system prompt per site
 - Hourly and daily rate limits per IP
 - Enabled post types

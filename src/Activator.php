@@ -61,7 +61,7 @@ final class Activator
 
         add_option('ai_page_assistant_settings', [
             'api_key' => '',
-            'model' => 'anthropic/claude-3.5-haiku',
+            'model' => 'auto/free-best',
             'system_prompt' => '',
             'hourly_limit' => 20,
             'daily_limit' => 100,

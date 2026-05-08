@@ -46,7 +46,7 @@ final class SettingsPage
             'model' => Sanitizer::choice(
                 $input['model'] ?? '',
                 array_keys(self::models()),
-                'anthropic/claude-3.5-haiku'
+                'auto/free-best'
             ),
             'system_prompt' => Sanitizer::textarea($input['system_prompt'] ?? '', 8000),
             'hourly_limit' => Sanitizer::int($input['hourly_limit'] ?? 20, 1, 500),
@@ -79,6 +79,7 @@ final class SettingsPage
     public static function models(): array
     {
         return [
+            'auto/free-best' => 'Auto: best current free model (shir-man ranking)',
             'anthropic/claude-3.5-haiku' => 'Claude 3.5 Haiku (fast, low cost)',
             'anthropic/claude-3.5-sonnet' => 'Claude 3.5 Sonnet (strong reasoning)',
             'openai/gpt-4o-mini' => 'GPT-4o mini (budget FAQ)',

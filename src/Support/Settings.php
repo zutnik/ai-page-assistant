@@ -30,7 +30,7 @@ final class Settings
 
     public function model(): string
     {
-        return (string) $this->get('model', 'anthropic/claude-3.5-haiku');
+        return (string) $this->get('model', 'auto/free-best');
     }
 
     public function systemPrompt(): string
@@ -97,7 +97,7 @@ final class Settings
     {
         return [
             'api_key' => '',
-            'model' => 'anthropic/claude-3.5-haiku',
+            'model' => 'auto/free-best',
             'system_prompt' => '',
             'hourly_limit' => 20,
             'daily_limit' => 100,
