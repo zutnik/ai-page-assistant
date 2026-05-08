@@ -137,14 +137,10 @@ final class ChatEndpoint
 
     private function clientIp(): string
     {
-        $candidates = [
-            $_SERVER['HTTP_CF_CONNECTING_IP'] ?? '',
-            $_SERVER['HTTP_X_FORWARDED_FOR'] ?? '',
-            $_SERVER['REMOTE_ADDR'] ?? '',
-        ];
+        $candidates = [$_SERVER['REMOTE_ADDR'] ?? ''];
 
         foreach ($candidates as $candidate) {
-            $ip = trim(explode(',', (string) $candidate)[0]);
+            $ip = trim((string) $candidate);
 
             if (filter_var($ip, FILTER_VALIDATE_IP)) {
                 return $ip;

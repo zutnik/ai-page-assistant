@@ -36,10 +36,19 @@ final class FreeModelResolver
         $body = wp_remote_retrieve_body($response);
         $payload = json_decode($body, true);
         $model = $payload['models'][0]['id'] ?? $payload['fallback']['id'] ?? self::FALLBACK;
-        $model = is_string($model) && $model !== '' ? $model : self::FALLBACK;
+        $model = is_string($model) && $this->isAllowedFreeModel($model) ? $model : self::FALLBACK;
 
         set_transient(self::TRANSIENT, $model, 6 * HOUR_IN_SECONDS);
 
         return $model;
+    }
+
+    private function isAllowedFreeModel(string $model): bool
+    {
+        if ($model === self::FALLBACK || $model === 'openrouter/owl-alpha') {
+            return true;
+        }
+
+        return str_ends_with($model, ':free');
     }
 }

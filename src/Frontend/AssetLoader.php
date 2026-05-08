@@ -19,12 +19,8 @@ final class AssetLoader
             return;
         }
 
-        $css = file_exists(AI_PAGE_ASSISTANT_PATH . 'assets/css/widget.css')
-            ? 'assets/css/widget.css'
-            : 'assets/scss/widget.scss';
-        $js = file_exists(AI_PAGE_ASSISTANT_PATH . 'assets/js/dist/widget.js')
-            ? 'assets/js/dist/widget.js'
-            : 'assets/js/widget.js';
+        $css = 'assets/css/widget.css';
+        $js = 'assets/js/dist/widget.js';
 
         wp_enqueue_style(
             'ai-page-assistant-widget',

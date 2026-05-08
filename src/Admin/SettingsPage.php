@@ -42,7 +42,9 @@ final class SettingsPage
         );
 
         return [
-            'api_key' => Sanitizer::text($input['api_key'] ?? '', 300),
+            'api_key' => Sanitizer::text($input['api_key'] ?? '', 300) !== ''
+                ? Sanitizer::text($input['api_key'] ?? '', 300)
+                : $this->settings->apiKey(),
             'model' => Sanitizer::choice(
                 $input['model'] ?? '',
                 array_keys(self::models()),

@@ -28,10 +28,11 @@ $enabledPostTypes = is_array($settings['enabled_post_types'] ?? null) ? $setting
                         class="regular-text"
                         type="password"
                         name="ai_page_assistant_settings[api_key]"
-                        value="<?php echo esc_attr((string) ($settings['api_key'] ?? '')); ?>"
+                        value=""
+                        placeholder="<?php echo empty($settings['api_key']) ? esc_attr__('Paste OpenRouter key', 'ai-page-assistant') : esc_attr__('Configured - leave blank to keep current key', 'ai-page-assistant'); ?>"
                         autocomplete="off"
                     >
-                    <p class="description"><?php esc_html_e('Stored in the WordPress options table. Use an OpenRouter key with a small monthly budget limit.', 'ai-page-assistant'); ?></p>
+                    <p class="description"><?php esc_html_e('Stored in the WordPress options table. Leave blank to keep the current key. Use an OpenRouter key with a small monthly budget limit.', 'ai-page-assistant'); ?></p>
                 </td>
             </tr>
             <tr>

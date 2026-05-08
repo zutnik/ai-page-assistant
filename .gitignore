@@ -1,7 +1,5 @@
 /vendor/
 /node_modules/
-/assets/css/
-/assets/js/dist/
 /.phpunit.cache/
 /.phpunit.result.cache
 /coverage/
