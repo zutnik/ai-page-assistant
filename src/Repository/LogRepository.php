@@ -109,6 +109,26 @@ final class LogRepository
                 $days
             )
         );
+
+        $this->anonymizeOldIpHashes();
+    }
+
+    public function anonymizeOldIpHashes(): void
+    {
+        $settings = new Settings();
+
+        if ($settings->anonymizationMode() !== 'delayed') {
+            return;
+        }
+
+        global $wpdb;
+
+        $wpdb->query(
+            $wpdb->prepare(
+                "UPDATE {$this->table()} SET ip_hash = '' WHERE created_at < DATE_SUB(UTC_TIMESTAMP(), INTERVAL %d DAY)",
+                $settings->retentionDays()
+            )
+        );
     }
 
     private function table(): string
