@@ -39,6 +39,9 @@ final class ChatEndpoint
 
         $message = Sanitizer::textarea($request->get_param('message'), 2000);
         $pageId = Sanitizer::int($request->get_param('page_id'), 0, PHP_INT_MAX);
+        $pageTitle = Sanitizer::text($request->get_param('page_title'), 240);
+        $pageUrl = esc_url_raw((string) $request->get_param('page_url'));
+        $pageText = Sanitizer::textarea($request->get_param('page_text'), 12000);
         $visitorId = Sanitizer::text($request->get_param('visitor_id'), 80);
         $language = Sanitizer::text($request->get_param('language'), 16);
 
@@ -51,7 +54,11 @@ final class ChatEndpoint
         $ipHash = (new IpAnonymizer())->hash($ip);
 
         try {
-            $context = (new ContextBuilder(new PageContentRepository(), $this->settings))->buildForQuery($pageId, $message);
+            $context = (new ContextBuilder(new PageContentRepository(), $this->settings))->buildForQuery($pageId, $message, [
+                'title' => $pageTitle,
+                'url' => $pageUrl,
+                'text' => $pageText,
+            ]);
             $messages = (new PromptBuilder($this->settings->systemPrompt()))->build($context, $message, $language);
             $model = (new FreeModelResolver())->resolve($this->settings->model());
             $client = new OpenRouterClient($this->settings->apiKey(), $model);

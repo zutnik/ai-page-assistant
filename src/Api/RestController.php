@@ -29,6 +29,9 @@ final class RestController
             'args' => [
                 'message' => ['required' => true, 'type' => 'string'],
                 'page_id' => ['required' => true, 'type' => 'integer'],
+                'page_title' => ['required' => false, 'type' => 'string'],
+                'page_url' => ['required' => false, 'type' => 'string'],
+                'page_text' => ['required' => false, 'type' => 'string'],
                 'visitor_id' => ['required' => false, 'type' => 'string'],
                 'language' => ['required' => false, 'type' => 'string'],
             ],

@@ -109,6 +109,9 @@ async function streamChat(settings, visitorId, message, bubble) {
     body: JSON.stringify({
       message,
       page_id: Number(settings.pageId || 0),
+      page_title: document.title,
+      page_url: window.location.href,
+      page_text: collectPageText(),
       visitor_id: visitorId,
       language: navigator.language || settings.language || 'en'
     })
@@ -168,6 +171,18 @@ function getVisitorId() {
   }
 
   return id;
+}
+
+function collectPageText() {
+  const source = document.querySelector('main, article, .site-main, #content') || document.body;
+  const clone = source.cloneNode(true);
+
+  clone.querySelectorAll('script, style, noscript, iframe, svg, nav, form, button, .ai-pa').forEach((node) => node.remove());
+
+  return clone.textContent
+    .replace(/\s+/g, ' ')
+    .trim()
+    .slice(0, 12000);
 }
 
 function escapeHtml(value) {

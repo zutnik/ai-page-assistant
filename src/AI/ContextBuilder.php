@@ -16,13 +16,16 @@ final class ContextBuilder
     ) {
     }
 
-    public function buildForQuery(int $currentPageId, string $userMessage): string
+    /** @param array{title?:string,url?:string,text?:string} $clientPage */
+    public function buildForQuery(int $currentPageId, string $userMessage, array $clientPage = []): string
     {
         $sections = [];
         $current = $this->pages->getById($currentPageId);
 
         if ($current !== null) {
             $sections[] = $this->formatSection('Current page', $current);
+        } elseif (($clientPage['text'] ?? '') !== '') {
+            $sections[] = $this->formatClientSection($clientPage);
         }
 
         $related = $this->pages->searchByKeywords(
@@ -39,6 +42,17 @@ final class ContextBuilder
         $context = implode("\n\n---\n\n", $sections);
 
         return $this->trimToBudget($context);
+    }
+
+    /** @param array{title?:string,url?:string,text?:string} $page */
+    private function formatClientSection(array $page): string
+    {
+        return sprintf(
+            "Current browser page\nTitle: %s\nURL: %s\nVisible content:\n%s",
+            $page['title'] ?? '',
+            $page['url'] ?? '',
+            $page['text'] ?? ''
+        );
     }
 
     /** @return list<string> */
