@@ -6,7 +6,7 @@
  * Version: 0.1.0
  * Requires at least: 6.0
  * Requires PHP: 8.2
- * Author: AI Page Assistant contributors
+ * Author: zutnik
  * License: MIT
  * License URI: https://opensource.org/license/mit
  * Text Domain: ai-page-assistant
