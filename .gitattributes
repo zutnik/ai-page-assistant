@@ -1,0 +1,11 @@
+/vendor export-ignore
+/node_modules export-ignore
+/tests export-ignore
+/docker export-ignore
+/docker-compose.yml export-ignore
+/Makefile export-ignore
+/.github export-ignore
+/.editorconfig export-ignore
+/.gitignore export-ignore
+/.gitattributes export-ignore
+/package-lock.json export-ignore

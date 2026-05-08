@@ -1,0 +1,10 @@
+/vendor/
+/node_modules/
+/assets/css/
+/assets/js/dist/
+/.phpunit.cache/
+/coverage/
+/.env
+/.DS_Store
+/wordpress/
+*.log
