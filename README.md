@@ -78,6 +78,12 @@ npm install
 npm run build
 ```
 
+By default Docker binds WordPress to `127.0.0.1:8080`. To expose it only on a private interface such as Tailscale, create a local `.env` file:
+
+```bash
+AI_PA_BIND_IP=100.x.y.z
+```
+
 Open `http://localhost:8080/wp-admin` and log in with:
 
 - Username: `admin`
