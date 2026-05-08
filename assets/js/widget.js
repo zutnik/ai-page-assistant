@@ -95,9 +95,11 @@ function initWidget(container, settings) {
       await streamChat(settings, visitorId, message, assistantBubble);
     } catch (error) {
       const message = error.message || 'Connection lost. Please retry.';
-      assistantBubble.textContent = assistantBubble.textContent
-        ? `${assistantBubble.textContent}\n\n${message}`
+      const current = assistantBubble.dataset.raw || assistantBubble.textContent || '';
+      assistantBubble.dataset.raw = current
+        ? `${current}\n\n${message}`
         : message;
+      renderAssistantMessage(assistantBubble);
     }
   });
 }
@@ -145,7 +147,8 @@ async function streamChat(settings, visitorId, message, bubble) {
         const payload = JSON.parse(line.slice(6));
 
         if (payload.type === 'token') {
-          bubble.textContent += payload.content;
+          bubble.dataset.raw = `${bubble.dataset.raw || ''}${payload.content}`;
+          renderAssistantMessage(bubble);
           bubble.parentElement.scrollTop = bubble.parentElement.scrollHeight;
         }
 
@@ -162,10 +165,69 @@ async function streamChat(settings, visitorId, message, bubble) {
 function appendMessage(messages, role, text) {
   const bubble = document.createElement('div');
   bubble.className = `ai-pa__message ai-pa__message--${role}`;
-  bubble.textContent = text;
+  if (role === 'assistant') {
+    bubble.dataset.raw = text;
+    renderAssistantMessage(bubble);
+  } else {
+    bubble.textContent = text;
+  }
   messages.appendChild(bubble);
   messages.scrollTop = messages.scrollHeight;
   return bubble;
+}
+
+function renderAssistantMessage(bubble) {
+  const raw = bubble.dataset.raw || '';
+
+  if (!raw) {
+    bubble.textContent = '';
+    return;
+  }
+
+  bubble.innerHTML = renderMarkdown(raw);
+}
+
+function renderMarkdown(markdown) {
+  const lines = escapeHtml(markdown).split(/\n+/);
+  const html = [];
+  let listItems = [];
+
+  const flushList = () => {
+    if (listItems.length) {
+      html.push(`<ul>${listItems.map((item) => `<li>${formatInlineMarkdown(item)}</li>`).join('')}</ul>`);
+      listItems = [];
+    }
+  };
+
+  for (const line of lines) {
+    const trimmed = line.trim();
+
+    if (!trimmed) {
+      flushList();
+      continue;
+    }
+
+    const listMatch = trimmed.match(/^[-*]\s+(.+)$/);
+
+    if (listMatch) {
+      listItems.push(listMatch[1]);
+      continue;
+    }
+
+    flushList();
+    html.push(`<p>${formatInlineMarkdown(trimmed)}</p>`);
+  }
+
+  flushList();
+
+  return html.join('');
+}
+
+function formatInlineMarkdown(value) {
+  return value
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.+?)\*/g, '<em>$1</em>')
+    .replace(/\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
 }
 
 function getVisitorId() {

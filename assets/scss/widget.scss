@@ -100,8 +100,26 @@
     color: #0f172a;
     font-size: 14px;
     line-height: 1.45;
-    white-space: pre-wrap;
     animation: ai-pa-message-in 180ms ease-out;
+
+    p,
+    ul {
+      margin: 0 0 0.7em;
+    }
+
+    p:last-child,
+    ul:last-child {
+      margin-bottom: 0;
+    }
+
+    ul {
+      padding-left: 1.2em;
+    }
+
+    a {
+      color: var(--ai-pa-primary);
+      text-decoration: underline;
+    }
   }
 
   &__message--assistant {
