@@ -94,7 +94,10 @@ function initWidget(container, settings) {
     try {
       await streamChat(settings, visitorId, message, assistantBubble);
     } catch (error) {
-      assistantBubble.textContent = error.message || 'AI request failed.';
+      const message = error.message || 'Connection lost. Please retry.';
+      assistantBubble.textContent = assistantBubble.textContent
+        ? `${assistantBubble.textContent}\n\n${message}`
+        : message;
     }
   });
 }
@@ -126,29 +129,33 @@ async function streamChat(settings, visitorId, message, bubble) {
   const decoder = new TextDecoder();
   let buffer = '';
 
-  while (true) {
-    const { done, value } = await reader.read();
-    if (done) break;
+  try {
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
 
-    buffer += decoder.decode(value, { stream: true });
-    const events = buffer.split('\n\n');
-    buffer = events.pop() || '';
+      buffer += decoder.decode(value, { stream: true });
+      const events = buffer.split('\n\n');
+      buffer = events.pop() || '';
 
-    for (const event of events) {
-      const line = event.split('\n').find((item) => item.startsWith('data: '));
-      if (!line) continue;
+      for (const event of events) {
+        const line = event.split('\n').find((item) => item.startsWith('data: '));
+        if (!line) continue;
 
-      const payload = JSON.parse(line.slice(6));
+        const payload = JSON.parse(line.slice(6));
 
-      if (payload.type === 'token') {
-        bubble.textContent += payload.content;
-        bubble.parentElement.scrollTop = bubble.parentElement.scrollHeight;
-      }
+        if (payload.type === 'token') {
+          bubble.textContent += payload.content;
+          bubble.parentElement.scrollTop = bubble.parentElement.scrollHeight;
+        }
 
-      if (payload.type === 'error') {
-        throw new Error(payload.message);
+        if (payload.type === 'error') {
+          throw new Error(payload.message);
+        }
       }
     }
+  } catch (error) {
+    throw new Error(error.message || 'Connection lost. Please retry.');
   }
 }
 

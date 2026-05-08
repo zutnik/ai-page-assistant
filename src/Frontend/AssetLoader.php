@@ -26,14 +26,14 @@ final class AssetLoader
             'ai-page-assistant-widget',
             AI_PAGE_ASSISTANT_URL . $css,
             [],
-            AI_PAGE_ASSISTANT_VERSION
+            $this->assetVersion($css)
         );
 
         wp_enqueue_script(
             'ai-page-assistant-widget',
             AI_PAGE_ASSISTANT_URL . $js,
             [],
-            AI_PAGE_ASSISTANT_VERSION,
+            $this->assetVersion($js),
             true
         );
 
@@ -63,5 +63,12 @@ final class AssetLoader
         }
 
         return true;
+    }
+
+    private function assetVersion(string $relativePath): string
+    {
+        $path = AI_PAGE_ASSISTANT_PATH . $relativePath;
+
+        return file_exists($path) ? (string) filemtime($path) : AI_PAGE_ASSISTANT_VERSION;
     }
 }

@@ -3,6 +3,25 @@
   "description": "Provider-agnostic OpenRouter AI chat assistant for WordPress pages.",
   "type": "wordpress-plugin",
   "license": "MIT",
+  "keywords": [
+    "wordpress",
+    "plugin",
+    "openrouter",
+    "ai",
+    "chatbot",
+    "sse",
+    "gdpr"
+  ],
+  "authors": [
+    {
+      "name": "zutnik",
+      "homepage": "https://github.com/zutnik"
+    }
+  ],
+  "support": {
+    "issues": "https://github.com/zutnik/ai-page-assistant/issues",
+    "source": "https://github.com/zutnik/ai-page-assistant"
+  },
   "autoload": {
     "psr-4": {
       "AiPageAssistant\\": "src/"

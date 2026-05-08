@@ -1,8 +1,8 @@
 # AI Page Assistant for WordPress
 
-A floating AI chat widget for WordPress sites. Visitors click a button on any page, ask questions in natural language, and receive answers grounded in the actual content of the page they are reading. Powered by OpenRouter for provider-agnostic AI access.
+[![CI](https://github.com/zutnik/ai-page-assistant/actions/workflows/ci.yml/badge.svg)](https://github.com/zutnik/ai-page-assistant/actions/workflows/ci.yml)
 
-![Demo GIF](docs/demo.gif)
+A floating AI chat widget for WordPress sites. Visitors click a button on any page, ask questions in natural language, and receive answers grounded in the actual content of the page they are reading. Powered by OpenRouter for provider-agnostic AI access.
 
 ## Why I Built This
 
