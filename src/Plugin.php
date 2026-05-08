@@ -45,6 +45,7 @@ final class Plugin
         add_action('wp_enqueue_scripts', [new AssetLoader($settings), 'enqueue']);
         add_action('wp_footer', [new ChatWidget($settings), 'render']);
         add_action('ai_page_assistant_daily_retention', [$logRepository, 'pruneByRetentionSetting']);
+        add_filter('plugin_action_links_' . plugin_basename(AI_PAGE_ASSISTANT_FILE), [$this, 'pluginActionLinks']);
 
         $this->booted = true;
     }
@@ -56,6 +57,21 @@ final class Plugin
             false,
             dirname(plugin_basename(AI_PAGE_ASSISTANT_FILE)) . '/languages'
         );
+    }
+
+    /**
+     * @param array<string, string> $links
+     * @return array<string, string>
+     */
+    public function pluginActionLinks(array $links): array
+    {
+        $settingsLink = sprintf(
+            '<a href="%s">%s</a>',
+            esc_url(admin_url('admin.php?page=ai-page-assistant')),
+            esc_html__('Settings', 'ai-page-assistant')
+        );
+
+        return array_merge(['settings' => $settingsLink], $links);
     }
 
     private function __construct()

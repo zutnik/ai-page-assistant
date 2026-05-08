@@ -18,9 +18,10 @@ final class LogsPage
 
     public function register(): void
     {
-        add_management_page(
+        add_submenu_page(
+            'ai-page-assistant',
             __('AI Logs', 'ai-page-assistant'),
-            __('AI Logs', 'ai-page-assistant'),
+            __('Logs', 'ai-page-assistant'),
             'manage_options',
             'ai-page-assistant-logs',
             [$this, 'render']

@@ -15,9 +15,20 @@ final class SettingsPage
 
     public function register(): void
     {
-        add_options_page(
+        add_menu_page(
             __('AI Assistant', 'ai-page-assistant'),
             __('AI Assistant', 'ai-page-assistant'),
+            'manage_options',
+            'ai-page-assistant',
+            [$this, 'render'],
+            'dashicons-format-chat',
+            58
+        );
+
+        add_submenu_page(
+            'ai-page-assistant',
+            __('Settings', 'ai-page-assistant'),
+            __('Settings', 'ai-page-assistant'),
             'manage_options',
             'ai-page-assistant',
             [$this, 'render']
