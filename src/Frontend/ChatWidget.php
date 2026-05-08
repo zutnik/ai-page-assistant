@@ -14,13 +14,7 @@ final class ChatWidget
 
     public function render(): void
     {
-        if (! is_singular()) {
-            return;
-        }
-
-        $postType = get_post_type();
-
-        if (! is_string($postType) || ! in_array($postType, $this->settings->enabledPostTypes(), true)) {
+        if (is_admin() || is_feed() || wp_is_json_request()) {
             return;
         }
 

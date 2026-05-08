@@ -62,12 +62,10 @@ final class AssetLoader
 
     private function shouldLoad(): bool
     {
-        if (! is_singular()) {
+        if (is_admin() || is_feed() || wp_is_json_request()) {
             return false;
         }
 
-        $postType = get_post_type();
-
-        return is_string($postType) && in_array($postType, $this->settings->enabledPostTypes(), true);
+        return true;
     }
 }

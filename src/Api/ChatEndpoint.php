@@ -38,7 +38,7 @@ final class ChatEndpoint
         }
 
         $message = Sanitizer::textarea($request->get_param('message'), 2000);
-        $pageId = Sanitizer::int($request->get_param('page_id'), 1, PHP_INT_MAX);
+        $pageId = Sanitizer::int($request->get_param('page_id'), 0, PHP_INT_MAX);
         $visitorId = Sanitizer::text($request->get_param('visitor_id'), 80);
         $language = Sanitizer::text($request->get_param('language'), 16);
 
