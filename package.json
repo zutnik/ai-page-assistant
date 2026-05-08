@@ -1,0 +1,16 @@
+{
+  "name": "ai-page-assistant",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "npm run build:css && npm run build:js",
+    "build:css": "sass assets/scss:assets/css --style=compressed --no-source-map",
+    "build:js": "esbuild assets/js/widget.js assets/js/admin.js --bundle --minify --outdir=assets/js/dist",
+    "watch": "npm run build:css -- --watch"
+  },
+  "devDependencies": {
+    "esbuild": "^0.27.0",
+    "sass": "^1.96.0"
+  }
+}

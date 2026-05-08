@@ -1,0 +1,30 @@
+{
+  "name": "zutnik/ai-page-assistant",
+  "description": "Provider-agnostic OpenRouter AI chat assistant for WordPress pages.",
+  "type": "wordpress-plugin",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "AiPageAssistant\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "AiPageAssistant\\Tests\\": "tests/"
+    }
+  },
+  "require": {
+    "php": ">=8.2"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^10.5"
+  },
+  "scripts": {
+    "test": "phpunit",
+    "dump": "composer dump-autoload"
+  },
+  "config": {
+    "sort-packages": true,
+    "allow-plugins": {}
+  }
+}
